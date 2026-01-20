@@ -12,7 +12,7 @@ public class AmostraDuplicadaException extends RuntimeException{
      private HttpStatus status;
 
     public AmostraDuplicadaException(String codAmostra){
-        super(codAmostra + " já esta cadastrado");
+        super(codAmostra + " já esta cadastrado.");
         this.status = HttpStatus.CONFLICT;
     }
 }

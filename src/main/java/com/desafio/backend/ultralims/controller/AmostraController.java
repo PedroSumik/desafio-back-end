@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.desafio.backend.ultralims.service.AmostraService;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/amostras")
 public class AmostraController {
@@ -53,21 +55,26 @@ public class AmostraController {
         return ResponseEntity.status(HttpStatus.OK).body(amostraService.getAmostraById(id));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Amostra> atualizarAmostra(@RequestBody AmostraRequest amostraRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(amostraService.atualizarAmostra(amostraRequest));
+    }
+
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarStatusAmostra(@PathVariable UUID id) {
         Amostra amostraAtualizada = amostraService.atualizarStatusAmostra(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Status da amostra "+ amostraAtualizada.getId() + " atualizado para " + amostraAtualizada.getStatus() + " com sucesso!");
+        return ResponseEntity.status(HttpStatus.OK).body("Status da amostra "+ amostraAtualizada.getCodAmostra() + " atualizado para " + amostraAtualizada.getStatus() + " com sucesso!");
     }
 
     @PutMapping("/rejeitar/{id}")
     public ResponseEntity<String> rejeitarStatusAmostra(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body("Amostra rejeitada: " + amostraService.rejeitarAmostra(id).getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Amostra rejeitada: " + amostraService.rejeitarAmostra(id).getCodAmostra());
     }
 
     @PutMapping("/aprovar/{id}")
     public ResponseEntity<String> aprovarStatusAmostra(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body("Amostra " + amostraService.aprovarAmostra(id) + " aprovada com sucesso!");
+        return ResponseEntity.status(HttpStatus.OK).body("Amostra " + amostraService.aprovarAmostra(id).getCodAmostra() + " aprovada com sucesso!");
     }
 
 

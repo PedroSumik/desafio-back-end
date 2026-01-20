@@ -29,7 +29,6 @@ public class AmostraRequest {
     @NotNull(message = "Tipo de coleta é obrigatório")
     private String tipoColeta;
 
-    @NotBlank(message = "Data é obrigatório")
     @NotNull(message = "Data é obrigatório")
     private LocalDateTime dataColeta;
 

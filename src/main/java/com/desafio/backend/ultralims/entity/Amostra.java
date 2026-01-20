@@ -59,16 +59,4 @@ public class Amostra{
         this.dataColeta = dataColeta;
         this.status = StatusAmostra.PENDENTE;
     }
-
-    public void avancarStatus() {
-        this.status = this.status.avancarStatus();
-    }
-
-    public void rejeitarAmostra() {
-        this.status = this.status.rejeitarAmostra();
-    }
-
-    public void aprovarAmostra() {
-        this.status = this.status.aprovarAmostra();
-    }
 }

@@ -74,9 +74,17 @@ public class AmostraService {
     }
 
     @Transactional
+    public Amostra atualizarAmostra(AmostraRequest amostraRequest){
+        buscAmostra(amostraRequest.getId());
+        Amostra amostraAtualizada = amostraRequest.toObject();
+        amostraRepository.save(amostraAtualizada);
+        return amostraAtualizada;
+    }
+
+    @Transactional
     public Amostra atualizarStatusAmostra(UUID id) {
         Amostra amostra = buscAmostra(id);
-        amostra.avancarStatus();
+        amostra.setStatus(amostra.getStatus().avancarStatus());
         amostraStatusHistoricoRepository.save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
         amostraRepository.save(amostra);
         return amostra;
@@ -85,7 +93,7 @@ public class AmostraService {
     @Transactional
     public Amostra rejeitarAmostra(UUID id) {
         Amostra amostra = buscAmostra(id);
-        amostra.rejeitarAmostra();
+        amostra.setStatus(amostra.getStatus().rejeitarAmostra());
         amostraRepository.save(amostra);
         amostraStatusHistoricoRepository.save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
         return amostra;
@@ -94,7 +102,7 @@ public class AmostraService {
     @Transactional
     public Amostra aprovarAmostra(UUID id) {
         Amostra amostra = buscAmostra(id);
-        amostra.aprovarAmostra();
+        amostra.setStatus(amostra.getStatus().aprovarAmostra());
         amostraRepository.save(amostra);
         amostraStatusHistoricoRepository.save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
         return amostra;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(AmostraNotFoundException.class)
-    public ResponseEntity<ErrorResponse> hadleAmostraNotFound(AmostraNotFoundException e){
+    public ResponseEntity<ErrorResponse> handleAmostraNotFound(AmostraNotFoundException e){
         return ResponseEntity.status(e.getStatus()).
                             body(new ErrorResponse(
                                 "Amostra nao encontrada",
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AmostraDuplicadaException.class)
-    public ResponseEntity<ErrorResponse> hadleAmostraDuplicada(AmostraDuplicadaException e){
+    public ResponseEntity<ErrorResponse> handleAmostraDuplicada(AmostraDuplicadaException e){
         return ResponseEntity.status(e.getStatus()).
                                 body(new ErrorResponse(
                                     "Amostra duplicada",

@@ -452,7 +452,8 @@ async function criarAmostra(e) {
 
     if (!response.ok) {
       const erro = await response.json();
-      alert(`Erro: ${erro.message || "Falha ao criar amostra"}`);
+      console.log(erro);
+      alert(`Erro: ${erro.mensagem || "Falha ao criar amostra"}`);
       return;
     }
 

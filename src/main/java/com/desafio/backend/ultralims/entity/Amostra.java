@@ -18,6 +18,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,6 +51,7 @@ public class Amostra{
     private StatusAmostra status;
 
     @OneToMany(mappedBy = "codAmostra", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("dataAlteracao DESC")
     @JsonManagedReference
     private List<AmostraStatusHistorico> historicoStatus;
 

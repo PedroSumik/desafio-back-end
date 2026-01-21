@@ -9,7 +9,7 @@ import com.desafio.backend.ultralims.entity.StatusAmostra;
 
 public class AmostraSpecification {
     public static Specification<Amostra> porCodigo(String codAmostra){
-        return (root, query, cb) -> codAmostra == null ? null : cb.equal(root.get("codAmostra"), codAmostra);
+        return (root, query, cb) -> codAmostra == null ? null : cb.like(cb.lower(root.get("codAmostra")), "%" + codAmostra.toLowerCase() + "%");
     }
 
     public static Specification<Amostra> porStatus(StatusAmostra status){

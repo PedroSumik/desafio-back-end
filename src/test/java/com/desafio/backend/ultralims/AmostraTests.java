@@ -33,129 +33,115 @@ import com.desafio.backend.ultralims.request.AmostraRequest;
 import com.desafio.backend.ultralims.request.AtualizarAmostraRequest;
 import com.desafio.backend.ultralims.service.AmostraService;
 
-
-
 @ExtendWith(MockitoExtension.class)
 class AmostraTests {
 
-	@Mock
-	private AmostraRepository amostraRepository;
+        @Mock
+        private AmostraRepository amostraRepository;
 
-	@Mock
-	private AmostraStatusHistoricoRepository amostraStatusHistoricoRepository;
+        @Mock
+        private AmostraStatusHistoricoRepository amostraStatusHistoricoRepository;
 
         @Mock
         private AmostraMapper amostraMapper;
 
-	@InjectMocks
-	private AmostraService amostraService;
+        @InjectMocks
+        private AmostraService amostraService;
 
-
-
-	@Test
-	public void criarAmostraTestePositivo(){
+        @Test
+        public void criarAmostraTestePositivo() {
                 AmostraRequest request = new AmostraRequest();
                 request.setCodAmostra("123");
                 request.setTipoColeta("SANGUE");
                 request.setDataColeta(LocalDateTime.now());
 
                 Amostra amostraSalva = new Amostra(
-                        request.getCodAmostra(),
-                        request.getTipoColeta(),
-                        request.getDataColeta()
-                );
+                                request.getCodAmostra(),
+                                request.getTipoColeta(),
+                                request.getDataColeta());
 
                 when(amostraMapper.AmostraRequestToAmostra(request))
                                 .thenReturn(amostraSalva);
 
                 when(amostraRepository.findByCodAmostra("123"))
-                        .thenReturn(Optional.empty());
+                                .thenReturn(Optional.empty());
 
                 when(amostraRepository.save(any(Amostra.class)))
-                        .thenReturn(amostraSalva);
+                                .thenReturn(amostraSalva);
 
-                // Act (ação)
                 Amostra resultado = amostraService.criaAmostra(request);
 
-                // Assert (verificação)
                 assertNotNull(resultado);
                 assertEquals("123", resultado.getCodAmostra());
 
                 verify(amostraMapper).AmostraRequestToAmostra(request);
                 verify(amostraRepository).save(any(Amostra.class));
                 verify(amostraStatusHistoricoRepository)
-                        .save(any(AmostraStatusHistorico.class));
-    }
-
-	@Test
-	public void criarAmostraTesteNegativo() {
-		AmostraRequest request = new AmostraRequest();
-		request.setCodAmostra("123");
-		request.setTipoColeta("SANGUE");
-		request.setDataColeta(LocalDateTime.now());
-
-		Amostra amostraExistente = new Amostra(
-				"123",
-				"SANGUE",
-				LocalDateTime.now()
-		);
-
-		when(amostraRepository.findByCodAmostra("123"))
-				.thenReturn(Optional.of(amostraExistente));
-
-		Exception exception = Assertions.assertThrows(
-				AmostraDuplicadaException.class,
-				() -> amostraService.criaAmostra(request)
-		);
-
-		assertTrue(exception.getMessage().contains("123"));
-		
-		verify(amostraRepository).findByCodAmostra("123");
-		verify(amostraRepository, Mockito.never()).save(any());
-		verify(amostraStatusHistoricoRepository, Mockito.never()).save(any());
-	}
+                                .save(any(AmostraStatusHistorico.class));
+        }
 
         @Test
-        public void atualizarAmostraTestePositivo(){
+        public void criarAmostraTesteNegativo() {
                 AmostraRequest request = new AmostraRequest();
                 request.setCodAmostra("123");
                 request.setTipoColeta("SANGUE");
                 request.setDataColeta(LocalDateTime.now());
 
-                
+                Amostra amostraExistente = new Amostra(
+                                "123",
+                                "SANGUE",
+                                LocalDateTime.now());
+
+                when(amostraRepository.findByCodAmostra("123"))
+                                .thenReturn(Optional.of(amostraExistente));
+
+                Exception exception = Assertions.assertThrows(
+                                AmostraDuplicadaException.class,
+                                () -> amostraService.criaAmostra(request));
+
+                assertTrue(exception.getMessage().contains("123"));
+
+                verify(amostraRepository).findByCodAmostra("123");
+                verify(amostraRepository, Mockito.never()).save(any());
+                verify(amostraStatusHistoricoRepository, Mockito.never()).save(any());
+        }
+
+        @Test
+        public void atualizarAmostraTestePositivo() {
+                AmostraRequest request = new AmostraRequest();
+                request.setCodAmostra("123");
+                request.setTipoColeta("SANGUE");
+                request.setDataColeta(LocalDateTime.now());
+
                 Amostra amostraSalva = new Amostra(
-                        request.getCodAmostra(),
-                        request.getTipoColeta(),
-                        request.getDataColeta()
-                );
+                                request.getCodAmostra(),
+                                request.getTipoColeta(),
+                                request.getDataColeta());
 
                 amostraSalva.setId(UUID.randomUUID());
 
                 AtualizarAmostraRequest requestAtualizado = new AtualizarAmostraRequest(
-                        "1234",
-                        "URINA",
-                        LocalDateTime.now()
-                );
+                                "1234",
+                                "URINA",
+                                LocalDateTime.now());
 
                 Amostra amostraAtualizada = new Amostra(
-                        requestAtualizado.getCodAmostra(),
-                        requestAtualizado.getTipoColeta(),
-                        requestAtualizado.getDataColeta()
-                );
+                                requestAtualizado.getCodAmostra(),
+                                requestAtualizado.getTipoColeta(),
+                                requestAtualizado.getDataColeta());
 
                 when(amostraMapper.AmostraRequestToAmostra(request))
                                 .thenReturn(amostraSalva);
-                        
 
                 when(amostraRepository.findByCodAmostra("123"))
-                        .thenReturn(Optional.empty());
+                                .thenReturn(Optional.empty());
 
                 when(amostraRepository.save(any(Amostra.class)))
-                        .thenReturn(amostraSalva)
-                        .thenReturn(amostraAtualizada);
+                                .thenReturn(amostraSalva)
+                                .thenReturn(amostraAtualizada);
 
                 when(amostraRepository.findById(amostraSalva.getId()))
-                        .thenReturn(Optional.of(amostraSalva));
+                                .thenReturn(Optional.of(amostraSalva));
 
                 doAnswer(invocation -> {
                         Amostra amostra = invocation.getArgument(0);
@@ -164,7 +150,8 @@ class AmostraTests {
                         amostra.setTipoColeta(req.getTipoColeta());
                         amostra.setDataColeta(req.getDataColeta());
                         return null;
-                }).when(amostraMapper).AmostraAtualizarRequestToAmostra(any(Amostra.class), any(AtualizarAmostraRequest.class));
+                }).when(amostraMapper).AmostraAtualizarRequestToAmostra(any(Amostra.class),
+                                any(AtualizarAmostraRequest.class));
 
                 Amostra amostra = amostraService.criaAmostra(request);
                 String resultado = amostraService.atualizarAmostra(amostra.getId(), requestAtualizado);
@@ -182,44 +169,40 @@ class AmostraTests {
         }
 
         @Test
-        public void atualizarAmostraComValoresInvalidosTesteNegativo(){
+        public void atualizarAmostraComValoresInvalidosTesteNegativo() {
                 AmostraRequest request = new AmostraRequest();
                 request.setCodAmostra("123");
                 request.setTipoColeta("SANGUE");
                 request.setDataColeta(LocalDateTime.now());
 
                 Amostra amostraSalva = new Amostra(
-                        request.getCodAmostra(),
-                        request.getTipoColeta(),
-                        request.getDataColeta()
-                );
+                                request.getCodAmostra(),
+                                request.getTipoColeta(),
+                                request.getDataColeta());
                 amostraSalva.setId(UUID.randomUUID());
 
-                // ❌ Valores inválidos - código vazio
                 AtualizarAmostraRequest requestAtualizado = new AtualizarAmostraRequest(
-                        null,  // Código vazio - inválido!
-                        "URINA",
-                        LocalDateTime.now().plusDays(1)
-                );
+                                null,
+                                "URINA",
+                                LocalDateTime.now().plusDays(1));
 
                 when(amostraMapper.AmostraRequestToAmostra(request))
-                        .thenReturn(amostraSalva);
+                                .thenReturn(amostraSalva);
 
                 when(amostraRepository.findByCodAmostra("123"))
-                        .thenReturn(Optional.empty());
+                                .thenReturn(Optional.empty());
 
                 when(amostraRepository.save(any(Amostra.class)))
-                        .thenReturn(amostraSalva);
+                                .thenReturn(amostraSalva);
 
                 Amostra amostra = amostraService.criaAmostra(request);
 
                 Exception exception = Assertions.assertThrows(
-                        IllegalArgumentException.class,
-                        () -> amostraService.atualizarAmostra(amostra.getId(), requestAtualizado)
-                );
+                                IllegalArgumentException.class,
+                                () -> amostraService.atualizarAmostra(amostra.getId(), requestAtualizado));
 
                 assertTrue(exception.getMessage().contains("Data de coleta nao pode ser futura ao dia atual."));
-                
+
                 assertEquals("123", amostra.getCodAmostra());
                 assertEquals("SANGUE", amostra.getTipoColeta());
 
@@ -227,30 +210,29 @@ class AmostraTests {
         }
 
         @Test
-        public void atualizarStatusAmostraPositivo(){
+        public void atualizarStatusAmostraPositivo() {
                 AmostraRequest request = new AmostraRequest();
                 request.setCodAmostra("123");
                 request.setTipoColeta("SANGUE");
                 request.setDataColeta(LocalDateTime.now());
 
                 Amostra amostraSalva = new Amostra(
-                        request.getCodAmostra(),
-                        request.getTipoColeta(),
-                        request.getDataColeta()
-                );
+                                request.getCodAmostra(),
+                                request.getTipoColeta(),
+                                request.getDataColeta());
                 amostraSalva.setId(UUID.randomUUID());
 
                 when(amostraMapper.AmostraRequestToAmostra(request))
                                 .thenReturn(amostraSalva);
 
                 when(amostraRepository.findByCodAmostra("123"))
-                        .thenReturn(Optional.empty());
+                                .thenReturn(Optional.empty());
 
                 when(amostraRepository.save(any(Amostra.class)))
-                        .thenReturn(amostraSalva);
+                                .thenReturn(amostraSalva);
 
                 when(amostraRepository.findById(amostraSalva.getId()))
-                        .thenReturn(Optional.of(amostraSalva));
+                                .thenReturn(Optional.of(amostraSalva));
 
                 Amostra amostra = amostraService.criaAmostra(request);
                 String resultado = amostraService.atualizarStatusAmostra(amostra.getId());
@@ -264,38 +246,35 @@ class AmostraTests {
         }
 
         @Test
-        public void atualizarStatusAmostraRejeitarNegativo(){
+        public void atualizarStatusAmostraRejeitarNegativo() {
                 AmostraRequest request = new AmostraRequest();
                 request.setCodAmostra("123");
                 request.setTipoColeta("SANGUE");
                 request.setDataColeta(LocalDateTime.now());
 
                 Amostra amostraSalva = new Amostra(
-                        request.getCodAmostra(),
-                        request.getTipoColeta(),
-                        request.getDataColeta()
-                );
+                                request.getCodAmostra(),
+                                request.getTipoColeta(),
+                                request.getDataColeta());
                 amostraSalva.setId(UUID.randomUUID());
 
                 when(amostraMapper.AmostraRequestToAmostra(request))
-                                        .thenReturn(amostraSalva);
+                                .thenReturn(amostraSalva);
 
                 when(amostraRepository.findByCodAmostra("123"))
-                        .thenReturn(Optional.empty());
+                                .thenReturn(Optional.empty());
 
                 when(amostraRepository.save(any(Amostra.class)))
-                        .thenReturn(amostraSalva);
+                                .thenReturn(amostraSalva);
 
                 when(amostraRepository.findById(amostraSalva.getId()))
-                        .thenReturn(Optional.of(amostraSalva));
-
+                                .thenReturn(Optional.of(amostraSalva));
 
                 Amostra amostra = amostraService.criaAmostra(request);
 
                 Exception exception = Assertions.assertThrows(
-                                        TrocaStatusInvalidException.class,
-                                        () -> amostraService.rejeitarAmostra(amostra.getId())
-                        );
+                                TrocaStatusInvalidException.class,
+                                () -> amostraService.rejeitarAmostra(amostra.getId()));
 
                 assertTrue(exception.getMessage().contains("Não é possível rejeitar a amostra"));
                 assertEquals(StatusAmostra.PENDENTE, amostra.getStatus());
@@ -304,122 +283,114 @@ class AmostraTests {
         }
 
         @Test
-        public void atualizarStatusAmostraAprovarNegativo(){
+        public void atualizarStatusAmostraAprovarNegativo() {
                 AmostraRequest request = new AmostraRequest();
                 request.setCodAmostra("123");
                 request.setTipoColeta("SANGUE");
                 request.setDataColeta(LocalDateTime.now());
 
                 Amostra amostraSalva = new Amostra(
-                        request.getCodAmostra(),
-                        request.getTipoColeta(),
-                        request.getDataColeta()
-                );
+                                request.getCodAmostra(),
+                                request.getTipoColeta(),
+                                request.getDataColeta());
                 amostraSalva.setId(UUID.randomUUID());
 
                 when(amostraMapper.AmostraRequestToAmostra(request))
                                 .thenReturn(amostraSalva);
 
                 when(amostraRepository.findByCodAmostra("123"))
-                        .thenReturn(Optional.empty());
+                                .thenReturn(Optional.empty());
 
                 when(amostraRepository.save(any(Amostra.class)))
-                        .thenReturn(amostraSalva);
+                                .thenReturn(amostraSalva);
 
                 when(amostraRepository.findById(amostraSalva.getId()))
-                        .thenReturn(Optional.of(amostraSalva));
-
+                                .thenReturn(Optional.of(amostraSalva));
 
                 Amostra amostra = amostraService.criaAmostra(request);
 
                 Exception exception = Assertions.assertThrows(
-                                        TrocaStatusInvalidException.class,
-                                        () -> amostraService.aprovarAmostra(amostra.getId())
-                        );
+                                TrocaStatusInvalidException.class,
+                                () -> amostraService.aprovarAmostra(amostra.getId()));
 
-                        assertTrue(exception.getMessage().contains("Não é possível aprovar a amostra"));
+                assertTrue(exception.getMessage().contains("Não é possível aprovar a amostra"));
                 assertEquals(StatusAmostra.PENDENTE, amostra.getStatus());
 
                 verify(amostraRepository).findByCodAmostra("123");
         }
 
         @Test
-        public void atualizarStatusAmostraAprovarPositivo(){
-        AmostraRequest request = new AmostraRequest();
-        request.setCodAmostra("123");
-        request.setTipoColeta("SANGUE");
-        request.setDataColeta(LocalDateTime.now());
+        public void atualizarStatusAmostraAprovarPositivo() {
+                AmostraRequest request = new AmostraRequest();
+                request.setCodAmostra("123");
+                request.setTipoColeta("SANGUE");
+                request.setDataColeta(LocalDateTime.now());
 
-        Amostra amostraSalva = new Amostra(
-                request.getCodAmostra(),
-                request.getTipoColeta(),
-                request.getDataColeta()
-        );
-        amostraSalva.setId(UUID.randomUUID());
+                Amostra amostraSalva = new Amostra(
+                                request.getCodAmostra(),
+                                request.getTipoColeta(),
+                                request.getDataColeta());
+                amostraSalva.setId(UUID.randomUUID());
 
-        when(amostraMapper.AmostraRequestToAmostra(request))
+                when(amostraMapper.AmostraRequestToAmostra(request))
                                 .thenReturn(amostraSalva);
 
-        when(amostraRepository.findByCodAmostra("123"))
-                .thenReturn(Optional.empty());
+                when(amostraRepository.findByCodAmostra("123"))
+                                .thenReturn(Optional.empty());
 
-        when(amostraRepository.save(any(Amostra.class)))
-                .thenReturn(amostraSalva);
+                when(amostraRepository.save(any(Amostra.class)))
+                                .thenReturn(amostraSalva);
 
-        when(amostraRepository.findById(amostraSalva.getId()))
-                .thenReturn(Optional.of(amostraSalva));
+                when(amostraRepository.findById(amostraSalva.getId()))
+                                .thenReturn(Optional.of(amostraSalva));
 
+                Amostra amostra = amostraService.criaAmostra(request);
+                amostraService.atualizarStatusAmostra(amostra.getId());
+                amostraService.atualizarStatusAmostra(amostra.getId());
+                amostraService.aprovarAmostra(amostra.getId());
 
-        Amostra amostra = amostraService.criaAmostra(request);
-        amostraService.atualizarStatusAmostra(amostra.getId());
-        amostraService.atualizarStatusAmostra(amostra.getId());
-        amostraService.aprovarAmostra(amostra.getId());
+                assertEquals(StatusAmostra.APROVADA, amostra.getStatus());
 
-        assertEquals(StatusAmostra.APROVADA, amostra.getStatus());
-
-        verify(amostraMapper).AmostraRequestToAmostra(request);
-        verify(amostraRepository).findByCodAmostra("123");
-        verify(amostraStatusHistoricoRepository, times(4)).save(any());
+                verify(amostraMapper).AmostraRequestToAmostra(request);
+                verify(amostraRepository).findByCodAmostra("123");
+                verify(amostraStatusHistoricoRepository, times(4)).save(any());
         }
 
         @Test
-        public void atualizarStatusAmostraRejeitarPositivo(){
-        AmostraRequest request = new AmostraRequest();
-        request.setCodAmostra("123");
-        request.setTipoColeta("SANGUE");
-        request.setDataColeta(LocalDateTime.now());
+        public void atualizarStatusAmostraRejeitarPositivo() {
+                AmostraRequest request = new AmostraRequest();
+                request.setCodAmostra("123");
+                request.setTipoColeta("SANGUE");
+                request.setDataColeta(LocalDateTime.now());
 
-        Amostra amostraSalva = new Amostra(
-                request.getCodAmostra(),
-                request.getTipoColeta(),
-                request.getDataColeta()
-        );
-        amostraSalva.setId(UUID.randomUUID());
+                Amostra amostraSalva = new Amostra(
+                                request.getCodAmostra(),
+                                request.getTipoColeta(),
+                                request.getDataColeta());
+                amostraSalva.setId(UUID.randomUUID());
 
-        when(amostraMapper.AmostraRequestToAmostra(request))
+                when(amostraMapper.AmostraRequestToAmostra(request))
                                 .thenReturn(amostraSalva);
 
-        when(amostraRepository.findByCodAmostra("123"))
-                .thenReturn(Optional.empty());
+                when(amostraRepository.findByCodAmostra("123"))
+                                .thenReturn(Optional.empty());
 
-        when(amostraRepository.save(any(Amostra.class)))
-                .thenReturn(amostraSalva);
+                when(amostraRepository.save(any(Amostra.class)))
+                                .thenReturn(amostraSalva);
 
-        when(amostraRepository.findById(amostraSalva.getId()))
-            .thenReturn(Optional.of(amostraSalva));
+                when(amostraRepository.findById(amostraSalva.getId()))
+                                .thenReturn(Optional.of(amostraSalva));
 
+                Amostra amostra = amostraService.criaAmostra(request);
+                amostraService.atualizarStatusAmostra(amostra.getId());
+                amostraService.atualizarStatusAmostra(amostra.getId());
+                amostraService.rejeitarAmostra(amostra.getId());
 
-        Amostra amostra = amostraService.criaAmostra(request);
-        amostraService.atualizarStatusAmostra(amostra.getId());
-        amostraService.atualizarStatusAmostra(amostra.getId());
-        amostraService.rejeitarAmostra(amostra.getId());
+                assertEquals(StatusAmostra.REJEITADA, amostra.getStatus());
 
-        assertEquals(StatusAmostra.REJEITADA, amostra.getStatus());
-
-        verify(amostraMapper).AmostraRequestToAmostra(request);
-        verify(amostraRepository).findByCodAmostra("123");
-        verify(amostraStatusHistoricoRepository, times(4)).save(any());
-    }
-
+                verify(amostraMapper).AmostraRequestToAmostra(request);
+                verify(amostraRepository).findByCodAmostra("123");
+                verify(amostraStatusHistoricoRepository, times(4)).save(any());
+        }
 
 }

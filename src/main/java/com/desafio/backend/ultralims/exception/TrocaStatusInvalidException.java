@@ -10,7 +10,7 @@ import lombok.Setter;
 public class TrocaStatusInvalidException extends RuntimeException {
     private HttpStatus status;
 
-    public TrocaStatusInvalidException(String mensagem){
+    public TrocaStatusInvalidException(String mensagem) {
         super(mensagem);
         this.status = HttpStatus.NOT_FOUND;
     }

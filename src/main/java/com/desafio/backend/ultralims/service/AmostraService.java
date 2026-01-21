@@ -45,31 +45,32 @@ public class AmostraService {
         verificaValoresRequest(amostraRequest);
 
         Amostra novaAmostra = amostraRepository.save(amostraMapper.AmostraRequestToAmostra(amostraRequest));
-        amostraStatusHistoricoRepository.save(new AmostraStatusHistorico(novaAmostra, novaAmostra.getStatus(), LocalDateTime.now()));
+        amostraStatusHistoricoRepository
+                .save(new AmostraStatusHistorico(novaAmostra, novaAmostra.getStatus(), LocalDateTime.now()));
         return novaAmostra;
     }
 
     @Transactional
-    public Page<AmostraResponse> listarTodasAmostras(String codAmostra, StatusAmostra status, LocalDateTime inicio, LocalDateTime fim, Pageable pageable) {
+    public Page<AmostraResponse> listarTodasAmostras(String codAmostra, StatusAmostra status, LocalDateTime inicio,
+            LocalDateTime fim, Pageable pageable) {
 
-        Specification<Amostra> specification = Specification.
-                                                where(AmostraSpecification.porCodigo(codAmostra))
-                                                .and(AmostraSpecification.porStatus(status))
-                                                .and(AmostraSpecification.porData(inicio, fim));
+        Specification<Amostra> specification = Specification.where(AmostraSpecification.porCodigo(codAmostra))
+                .and(AmostraSpecification.porStatus(status))
+                .and(AmostraSpecification.porData(inicio, fim));
 
         return amostraRepository.findAll(specification, pageable)
-                    .map( a -> amostraMapper.AmostraToAmostraResponse(a));
+                .map(a -> amostraMapper.AmostraToAmostraResponse(a));
     }
 
     @Transactional
     public AmostraDetalheResponse getAmostraById(UUID id) {
         return amostraRepository.findById(id)
-                    .map( a -> amostraMapper.AmostraToAmostraDetalheResponse(a))
-                                .orElseThrow(() -> new AmostraNotFoundException("Amostra com id " + id + " não foi encontrada"));
+                .map(a -> amostraMapper.AmostraToAmostraDetalheResponse(a))
+                .orElseThrow(() -> new AmostraNotFoundException("Amostra com id " + id + " não foi encontrada"));
     }
 
     @Transactional
-    public String atualizarAmostra( UUID id, AtualizarAmostraRequest amostraRequest){
+    public String atualizarAmostra(UUID id, AtualizarAmostraRequest amostraRequest) {
         if (amostraRequest.getDataColeta() != null && amostraRequest.getDataColeta().isAfter(LocalDateTime.now())) {
             throw new IllegalArgumentException("Data de coleta nao pode ser futura ao dia atual.");
         }
@@ -84,9 +85,11 @@ public class AmostraService {
     public String atualizarStatusAmostra(UUID id) {
         Amostra amostra = buscaAmostra(id);
         amostra.setStatus(amostra.getStatus().avancarStatus());
-        amostraStatusHistoricoRepository.save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
+        amostraStatusHistoricoRepository
+                .save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
         amostraRepository.save(amostra);
-        return "Status da amostra "+ amostra.getCodAmostra() + " atualizado para " + amostra.getStatus() + " com sucesso!";
+        return "Status da amostra " + amostra.getCodAmostra() + " atualizado para " + amostra.getStatus()
+                + " com sucesso!";
     }
 
     @Transactional
@@ -94,7 +97,8 @@ public class AmostraService {
         Amostra amostra = buscaAmostra(id);
         amostra.setStatus(amostra.getStatus().rejeitarAmostra());
         amostraRepository.save(amostra);
-        amostraStatusHistoricoRepository.save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
+        amostraStatusHistoricoRepository
+                .save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
         return "Amostra rejeitada: " + amostra.getCodAmostra();
     }
 
@@ -103,7 +107,8 @@ public class AmostraService {
         Amostra amostra = buscaAmostra(id);
         amostra.setStatus(amostra.getStatus().aprovarAmostra());
         amostraRepository.save(amostra);
-        amostraStatusHistoricoRepository.save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
+        amostraStatusHistoricoRepository
+                .save(new AmostraStatusHistorico(amostra, amostra.getStatus(), LocalDateTime.now()));
         return "Amostra " + amostra.getCodAmostra() + " aprovada com sucesso!";
     }
 
@@ -114,11 +119,12 @@ public class AmostraService {
         return "Amostra deletada com sucesso!";
     }
 
-    private Amostra buscaAmostra(UUID id){
-        return amostraRepository.findById(id).orElseThrow((() -> new AmostraNotFoundException("Amostra com id " + id + " não foi encontrada")));
+    private Amostra buscaAmostra(UUID id) {
+        return amostraRepository.findById(id)
+                .orElseThrow((() -> new AmostraNotFoundException("Amostra com id " + id + " não foi encontrada")));
     }
 
-    private void verificaValoresRequest(AmostraRequest amostraRequest){
+    private void verificaValoresRequest(AmostraRequest amostraRequest) {
         if (amostraRequest.getCodAmostra() == null || amostraRequest.getCodAmostra() == "") {
             throw new IllegalArgumentException("Código de amostra deve possuir um valor.");
         }

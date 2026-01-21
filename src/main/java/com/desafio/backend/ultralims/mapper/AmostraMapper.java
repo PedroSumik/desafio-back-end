@@ -11,36 +11,33 @@ import com.desafio.backend.ultralims.response.AmostraResponse;
 @Component
 public class AmostraMapper {
 
-    public Amostra AmostraRequestToAmostra(AmostraRequest amostraRequest){
+    public Amostra AmostraRequestToAmostra(AmostraRequest amostraRequest) {
         return new Amostra(
-                        amostraRequest.getCodAmostra(),
-                        amostraRequest.getTipoColeta(),
-                        amostraRequest.getDataColeta()
-                    );
+                amostraRequest.getCodAmostra(),
+                amostraRequest.getTipoColeta(),
+                amostraRequest.getDataColeta());
     }
 
-    public AmostraDetalheResponse AmostraToAmostraDetalheResponse(Amostra amostra){
+    public AmostraDetalheResponse AmostraToAmostraDetalheResponse(Amostra amostra) {
         return new AmostraDetalheResponse(
-                        amostra.getId(),
-                        amostra.getCodAmostra(),
-                        amostra.getTipoColeta(),
-                        amostra.getDataColeta(),
-                        amostra.getStatus(),
-                        amostra.getHistoricoStatus()
-                    );
+                amostra.getId(),
+                amostra.getCodAmostra(),
+                amostra.getTipoColeta(),
+                amostra.getDataColeta(),
+                amostra.getStatus(),
+                amostra.getHistoricoStatus());
     }
 
-    public AmostraResponse AmostraToAmostraResponse(Amostra amostra){
+    public AmostraResponse AmostraToAmostraResponse(Amostra amostra) {
         return new AmostraResponse(
-                        amostra.getId(),
-                        amostra.getCodAmostra(),
-                        amostra.getTipoColeta(),
-                        amostra.getDataColeta(),
-                        amostra.getStatus()
-                    );
+                amostra.getId(),
+                amostra.getCodAmostra(),
+                amostra.getTipoColeta(),
+                amostra.getDataColeta(),
+                amostra.getStatus());
     }
 
-    public void AmostraAtualizarRequestToAmostra(Amostra amostra, AtualizarAmostraRequest amostraAtualizada){
+    public void AmostraAtualizarRequestToAmostra(Amostra amostra, AtualizarAmostraRequest amostraAtualizada) {
         if (amostraAtualizada.getTipoColeta() != null) {
             amostra.setTipoColeta(amostraAtualizada.getTipoColeta());
         }

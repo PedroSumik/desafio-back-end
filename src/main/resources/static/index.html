@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- HEADER -->
     <header class="app-header">
       <div class="header-content">
         <h1>🧪 UltraLIMS</h1>
@@ -14,9 +13,7 @@
       </div>
     </header>
 
-    <!-- CONTEÚDO -->
     <main class="container">
-      <!-- FILTROS -->
       <section class="filters">
         <input
           type="text"
@@ -47,35 +44,31 @@
         </button>
       </section>
 
-      <!-- TABELA -->
       <section class="table-container">
         <table>
           <thead>
             <tr>
               <th onclick="ordenarPor('codAmostra')" style="cursor: pointer">
-                Código 📊
+                Código
               </th>
               <th onclick="ordenarPor('tipoColeta')" style="cursor: pointer">
-                Tipo Coleta 📊
+                Tipo Coleta
               </th>
               <th onclick="ordenarPor('status')" style="cursor: pointer">
-                Status 📊
+                Status
               </th>
               <th onclick="ordenarPor('dataColeta')" style="cursor: pointer">
-                Data Coleta 📊
+                Data Coleta
               </th>
               <th>Ações</th>
             </tr>
           </thead>
 
-          <tbody id="tabelaAmostras">
-            <!-- JS preenche -->
-          </tbody>
+          <tbody id="tabelaAmostras"></tbody>
         </table>
       </section>
     </main>
 
-    <!-- MODAL DETALHES (estrutura) -->
     <div class="modal-overlay" id="modalDetalhes">
       <div class="modal">
         <div class="modal-header">
@@ -83,13 +76,10 @@
           <button class="close-btn">&times;</button>
         </div>
 
-        <div class="modal-body" id="detalhesConteudo">
-          <!-- JS preenche. NÃO mostrar ID, apenas codAmostra -->
-        </div>
+        <div class="modal-body" id="detalhesConteudo"></div>
       </div>
     </div>
 
-    <!-- MODAL CRIAR AMOSTRA (estrutura) -->
     <div class="modal-overlay" id="modalCriar">
       <div class="modal">
         <div class="modal-header">
@@ -97,9 +87,7 @@
           <button class="close-btn">&times;</button>
         </div>
 
-        <form class="modal-body">
-          <!-- JS preenche dynamicamente -->
-        </form>
+        <form class="modal-body"></form>
       </div>
     </div>
 

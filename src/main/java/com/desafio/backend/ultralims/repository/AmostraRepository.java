@@ -16,7 +16,7 @@ public interface AmostraRepository extends JpaRepository<Amostra, UUID>, JpaSpec
 
     List<Amostra> findAll();
 
-    @EntityGraph(attributePaths = {"historicoStatus"})
+    @EntityGraph(attributePaths = { "historicoStatus" })
     Optional<Amostra> findById(UUID id);
 
     Optional<Amostra> findByCodAmostra(String codAmostra);

@@ -3,19 +3,19 @@ package com.desafio.backend.ultralims.entity;
 import com.desafio.backend.ultralims.exception.TrocaStatusInvalidException;
 
 public enum StatusAmostra {
-    PENDENTE{
+    PENDENTE {
         @Override
         public StatusAmostra avancarStatus() {
             return EM_ANALISE;
         }
     },
-    EM_ANALISE{
+    EM_ANALISE {
         @Override
         public StatusAmostra avancarStatus() {
             return CONCLUIDA;
         }
     },
-    CONCLUIDA{
+    CONCLUIDA {
         @Override
         public StatusAmostra avancarStatus() {
             throw new TrocaStatusInvalidException("Não é possível avançar o status além de CONCLUIDA.");
@@ -31,7 +31,7 @@ public enum StatusAmostra {
             return APROVADA;
         }
     },
-    APROVADA{
+    APROVADA {
         @Override
         public StatusAmostra aprovarAmostra() {
             throw new TrocaStatusInvalidException("Amotras ja está aprovada.");
@@ -42,11 +42,12 @@ public enum StatusAmostra {
             throw new TrocaStatusInvalidException("Não é possível rejeitar uma amostra aprovada.");
         }
     },
-    REJEITADA{
+    REJEITADA {
         @Override
         public StatusAmostra rejeitarAmostra() {
             throw new TrocaStatusInvalidException("Amostra já está rejeitada.");
         }
+
         @Override
         public StatusAmostra aprovarAmostra() {
             throw new TrocaStatusInvalidException("Não é possível aprovar uma amostra rejeitada.");

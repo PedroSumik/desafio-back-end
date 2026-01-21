@@ -36,7 +36,7 @@ public class AmostraController {
 
     @Autowired
     private AmostraService amostraService;
-    
+
     @PostMapping
     public ResponseEntity<Amostra> criarAmostra(@Valid @RequestBody AmostraRequest amostraRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(amostraService.criaAmostra(amostraRequest));
@@ -48,9 +48,9 @@ public class AmostraController {
             @RequestParam(required = false) StatusAmostra status,
             @RequestParam(required = false) LocalDateTime inicio,
             @RequestParam(required = false) LocalDateTime fim,
-            Pageable pageable
-        ) {
-        return ResponseEntity.status(HttpStatus.OK).body(amostraService.listarTodasAmostras(codAmostra, status, inicio, fim, pageable));
+            Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(amostraService.listarTodasAmostras(codAmostra, status, inicio, fim, pageable));
     }
 
     @GetMapping("/{id}")
@@ -59,10 +59,10 @@ public class AmostraController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizarAmostra(@PathVariable UUID id, @RequestBody AtualizarAmostraRequest amostraRequest){
+    public ResponseEntity<String> atualizarAmostra(@PathVariable UUID id,
+            @RequestBody AtualizarAmostraRequest amostraRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(amostraService.atualizarAmostra(id, amostraRequest));
     }
-
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarStatusAmostra(@PathVariable UUID id) {
@@ -78,7 +78,6 @@ public class AmostraController {
     public ResponseEntity<String> aprovarStatusAmostra(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(amostraService.aprovarAmostra(id));
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletarAmostra(@PathVariable UUID id) {

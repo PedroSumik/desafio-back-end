@@ -9,7 +9,6 @@ body {
   color: #333;
 }
 
-/* HEADER */
 .app-header {
   background: #2c3e50;
   padding: 24px;
@@ -26,14 +25,12 @@ body {
   opacity: 0.85;
 }
 
-/* CONTAINER */
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 24px auto;
 }
 
-/* FILTROS */
 .filters {
   display: flex;
   align-items: center;
@@ -60,7 +57,6 @@ select {
   border-radius: 4px;
 }
 
-/* BOTÕES */
 .btn {
   padding: 10px 14px;
   border: none;
@@ -87,7 +83,6 @@ select {
   background: #27ae60;
 }
 
-/* TABELA */
 .table-container {
   background: #fff;
   border-radius: 6px;
@@ -119,7 +114,6 @@ tbody tr:hover {
   background: #f9f9f9;
 }
 
-/* STATUS TAGS */
 .status {
   display: inline-block;
   padding: 6px 10px;
@@ -145,7 +139,6 @@ tbody tr:hover {
   background: #e74c3c;
 }
 
-/* MODAL */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -185,7 +178,6 @@ tbody tr:hover {
   cursor: pointer;
 }
 
-/* BOTÕES ADICIONAIS */
 .btn.secondary {
   background: #95a5a6;
   color: #fff;
@@ -204,7 +196,6 @@ tbody tr:hover {
   background: #c0392b;
 }
 
-/* PAGINAÇÃO */
 .paginacao {
   text-align: center;
   padding: 20px;
@@ -219,7 +210,6 @@ tbody tr:hover {
   cursor: not-allowed;
 }
 
-/* FORMULÁRIOS */
 .form-group {
   margin-bottom: 14px;
 }
@@ -258,7 +248,6 @@ tbody tr:hover {
   flex: 1;
 }
 
-/* HISTÓRICO */
 .historico {
   list-style: none;
   padding: 0;

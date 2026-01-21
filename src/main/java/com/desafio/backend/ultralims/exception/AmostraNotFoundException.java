@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AmostraNotFoundException extends RuntimeException{
+public class AmostraNotFoundException extends RuntimeException {
     private HttpStatus status;
 
-    public AmostraNotFoundException(String message){
+    public AmostraNotFoundException(String message) {
         super(message);
         this.status = HttpStatus.NOT_FOUND;
     }

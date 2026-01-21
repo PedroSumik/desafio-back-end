@@ -31,7 +31,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Amostra{
+public class Amostra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -1,8 +1,5 @@
 const API_BASE = "/amostras";
 
-/* =========================
-   ELEMENTOS
-========================= */
 const tabelaBody = document.getElementById("tabelaAmostras");
 const searchInput = document.getElementById("searchInput");
 const statusSelect = document.getElementById("statusSelect");
@@ -14,25 +11,17 @@ const detalhesConteudo = document.getElementById("detalhesConteudo");
 
 const modalCriar = document.getElementById("modalCriar");
 
-/* =========================
-   VARIÁVEIS GLOBAIS
-========================= */
 let paginaAtual = 0;
 let tamanhoPagina = 10;
 let ordenacaoAtual = null;
 let direcaoOrdenacao = "asc";
 
-/* =========================
-   UTILIDADES
-========================= */
 function formatarData(data) {
   if (!data) return "-";
 
-  // Parse da data ISO
   const d = new Date(data);
   if (isNaN(d.getTime())) return "-";
 
-  // ✅ Converte para horário local e formata corretamente
   const ano = d.getFullYear();
   const mes = String(d.getMonth() + 1).padStart(2, "0");
   const dia = String(d.getDate()).padStart(2, "0");
@@ -51,13 +40,9 @@ function fecharModal(modal) {
   modal.style.display = "none";
 }
 
-/* =========================
-   LISTAR AMOSTRAS
-========================= */
 async function carregarAmostras() {
   const params = new URLSearchParams();
 
-  // Filtros de busca
   if (searchInput.value.trim()) {
     params.append("codAmostra", searchInput.value.trim());
   }
@@ -66,7 +51,6 @@ async function carregarAmostras() {
     params.append("status", statusSelect.value);
   }
 
-  // Filtros de data
   const dataInicio = document.getElementById("dataInicio");
   const dataFim = document.getElementById("dataFim");
 
@@ -78,11 +62,9 @@ async function carregarAmostras() {
     params.append("fim", dataFim.value + "T23:59:59");
   }
 
-  // Paginação
   params.append("page", paginaAtual);
   params.append("size", tamanhoPagina);
 
-  // Ordenação
   if (ordenacaoAtual) {
     params.append("sort", `${ordenacaoAtual},${direcaoOrdenacao}`);
   }
@@ -156,12 +138,10 @@ function renderizarPaginacao(dados) {
       <div style="margin-top: 10px;">
   `;
 
-  // Botão Anterior
   if (pageNumber > 0) {
     html += `<button class="btn primary" onclick="irParaPagina(${pageNumber - 1})">← Anterior</button>`;
   }
 
-  // Números de páginas
   const inicio = Math.max(0, pageNumber - 2);
   const fim = Math.min(totalPages, pageNumber + 3);
 
@@ -173,7 +153,6 @@ function renderizarPaginacao(dados) {
     }
   }
 
-  // Botão Próximo
   if (pageNumber < totalPages - 1) {
     html += `<button class="btn primary" onclick="irParaPagina(${pageNumber + 1})">Próximo →</button>`;
   }
@@ -190,7 +169,6 @@ function irParaPagina(pagina) {
 
 function ordenarPor(coluna) {
   if (ordenacaoAtual === coluna) {
-    // Ciclo: asc -> desc -> sem ordenação -> asc...
     if (direcaoOrdenacao === "asc") {
       direcaoOrdenacao = "desc";
     } else if (direcaoOrdenacao === "desc") {
@@ -198,7 +176,6 @@ function ordenarPor(coluna) {
       direcaoOrdenacao = "asc";
     }
   } else {
-    // Nova coluna - começa com asc
     ordenacaoAtual = coluna;
     direcaoOrdenacao = "asc";
   }
@@ -206,9 +183,6 @@ function ordenarPor(coluna) {
   carregarAmostras();
 }
 
-/* =========================
-   DETALHES DA AMOSTRA
-========================= */
 async function abrirDetalhes(id) {
   const response = await fetch(`${API_BASE}/${id}`);
   const amostra = await response.json();
@@ -301,9 +275,6 @@ function renderizarDetalhes(amostra) {
   `;
 }
 
-/* =========================
-   ATUALIZAÇÕES
-========================= */
 async function atualizarAmostra(id, status) {
   const tipoColeta = document.getElementById("tipoColeta").value;
   const codAmostra = document.getElementById("codAmostra").value;
@@ -356,15 +327,11 @@ async function aprovarStatus(id, status) {
   carregarAmostras();
 }
 
-/* =========================
-   EVENTOS
-========================= */
 btnBuscar.addEventListener("click", () => {
   paginaAtual = 0;
   carregarAmostras();
 });
 
-// Status select muda automaticamente (sem precisar clicar em buscar)
 statusSelect.addEventListener("change", () => {
   paginaAtual = 0;
   carregarAmostras();
@@ -381,9 +348,6 @@ document.querySelectorAll(".close-btn").forEach((btn) => {
   });
 });
 
-/* =========================
-   CRIAR AMOSTRA
-========================= */
 function abrirModalCriar() {
   const formCriar = document.querySelector("#modalCriar form");
 
@@ -392,7 +356,6 @@ function abrirModalCriar() {
     return;
   }
 
-  // Data e hora atual no formato datetime-local
   const agora = new Date();
   const ano = agora.getFullYear();
   const mes = String(agora.getMonth() + 1).padStart(2, "0");
@@ -446,7 +409,7 @@ async function criarAmostra(e) {
       body: JSON.stringify({
         codAmostra,
         tipoColeta,
-        dataColeta: dataColeta.replace("T", "T"), // Converte para ISO
+        dataColeta: dataColeta.replace("T", "T"),
       }),
     });
 
@@ -467,18 +430,13 @@ async function criarAmostra(e) {
   }
 }
 
-/* =========================
-   INIT
-========================= */
 function inicializarDatas() {
-  // Data de hoje
   const hoje = new Date();
   const anoHoje = hoje.getFullYear();
   const mesHoje = String(hoje.getMonth() + 1).padStart(2, "0");
   const diaHoje = String(hoje.getDate()).padStart(2, "0");
   const dataHoje = `${anoHoje}-${mesHoje}-${diaHoje}`;
 
-  // Data de 1 mês atrás
   const umMesAtras = new Date();
   umMesAtras.setMonth(umMesAtras.getMonth() - 1);
   const anoMes = umMesAtras.getFullYear();
@@ -494,10 +452,8 @@ function inicializarDatas() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializa datas de filtro
   inicializarDatas();
 
-  // Adiciona event listeners para ordenação nas colunas
   const ths = document.querySelectorAll("table thead th");
   const colunas = ["codAmostra", "tipoColeta", "status", "dataColeta"];
 

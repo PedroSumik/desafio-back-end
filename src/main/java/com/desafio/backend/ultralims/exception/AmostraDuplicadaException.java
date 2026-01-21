@@ -11,8 +11,8 @@ import lombok.Setter;
 public class AmostraDuplicadaException extends RuntimeException{
      private HttpStatus status;
 
-    public AmostraDuplicadaException(String codAmostra){
-        super(codAmostra + " já esta cadastrado.");
+    public AmostraDuplicadaException(String message){
+        super(message);
         this.status = HttpStatus.CONFLICT;
     }
 }

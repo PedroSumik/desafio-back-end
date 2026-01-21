@@ -3,7 +3,6 @@ package com.desafio.backend.ultralims.request;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.desafio.backend.ultralims.entity.Amostra;
 import com.desafio.backend.ultralims.entity.StatusAmostra;
 
 import jakarta.validation.constraints.NotBlank;
@@ -35,7 +34,4 @@ public class AmostraRequest {
     @Null
     private StatusAmostra status;
 
-    public Amostra toObject() {
-        return new Amostra(codAmostra, tipoColeta, dataColeta);
-    }
 }

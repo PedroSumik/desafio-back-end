@@ -1,10 +1,11 @@
 package com.desafio.backend.ultralims.controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.desafio.backend.ultralims.entity.Amostra;
 import com.desafio.backend.ultralims.entity.StatusAmostra;
 import com.desafio.backend.ultralims.request.AmostraRequest;
+import com.desafio.backend.ultralims.request.AtualizarAmostraRequest;
 import com.desafio.backend.ultralims.response.AmostraDetalheResponse;
 import com.desafio.backend.ultralims.response.AmostraResponse;
 import com.desafio.backend.ultralims.service.AmostraService;
@@ -41,13 +43,14 @@ public class AmostraController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AmostraResponse>> listarTodasAmostras(
+    public ResponseEntity<Page<AmostraResponse>> listarTodasAmostras(
             @RequestParam(required = false) String codAmostra,
             @RequestParam(required = false) StatusAmostra status,
             @RequestParam(required = false) LocalDateTime inicio,
-            @RequestParam(required = false) LocalDateTime fim
+            @RequestParam(required = false) LocalDateTime fim,
+            Pageable pageable
         ) {
-        return ResponseEntity.status(HttpStatus.OK).body(amostraService.listarTodasAmostras(codAmostra, status, inicio, fim));
+        return ResponseEntity.status(HttpStatus.OK).body(amostraService.listarTodasAmostras(codAmostra, status, inicio, fim, pageable));
     }
 
     @GetMapping("/{id}")
@@ -56,30 +59,29 @@ public class AmostraController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Amostra> atualizarAmostra(@RequestBody AmostraRequest amostraRequest){
-        return ResponseEntity.status(HttpStatus.OK).body(amostraService.atualizarAmostra(amostraRequest));
+    public ResponseEntity<String> atualizarAmostra(@PathVariable UUID id, @RequestBody AtualizarAmostraRequest amostraRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(amostraService.atualizarAmostra(id, amostraRequest));
     }
 
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarStatusAmostra(@PathVariable UUID id) {
-        Amostra amostraAtualizada = amostraService.atualizarStatusAmostra(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Status da amostra "+ amostraAtualizada.getCodAmostra() + " atualizado para " + amostraAtualizada.getStatus() + " com sucesso!");
+        return ResponseEntity.status(HttpStatus.OK).body(amostraService.atualizarStatusAmostra(id));
     }
 
     @PutMapping("/rejeitar/{id}")
     public ResponseEntity<String> rejeitarStatusAmostra(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body("Amostra rejeitada: " + amostraService.rejeitarAmostra(id).getCodAmostra());
+        return ResponseEntity.status(HttpStatus.OK).body(amostraService.rejeitarAmostra(id));
     }
 
     @PutMapping("/aprovar/{id}")
     public ResponseEntity<String> aprovarStatusAmostra(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body("Amostra " + amostraService.aprovarAmostra(id).getCodAmostra() + " aprovada com sucesso!");
+        return ResponseEntity.status(HttpStatus.OK).body(amostraService.aprovarAmostra(id));
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Amostra> deletarAmostra(@PathVariable UUID id) {
+    public ResponseEntity<String> deletarAmostra(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(amostraService.deletarAmostra(id));
     }
 }

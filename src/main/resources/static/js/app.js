@@ -420,7 +420,6 @@ async function criarAmostra(e) {
       return;
     }
 
-    alert("Amostra criada com sucesso!");
     fecharModal(modalCriar);
     paginaAtual = 0;
     carregarAmostras();

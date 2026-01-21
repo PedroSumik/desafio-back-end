@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>UltraLIMS</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-content">
+        <h1>🧪 UltraLIMS</h1>
+        <p>Sistema de Gerenciamento de Amostras</p>
+      </div>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <main class="container">
+      <!-- FILTROS -->
+      <section class="filters">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Pesquisar por código da amostra..."
+        />
+
+        <input type="date" id="dataInicio" title="Data de início" />
+
+        <input type="date" id="dataFim" title="Data de fim" />
+
+        <button class="btn primary" id="btnBuscar">Buscar</button>
+
+        <label class="status-filter">
+          Status:
+          <select id="statusSelect">
+            <option value="">Todos</option>
+            <option value="PENDENTE">Pendente</option>
+            <option value="EM_ANALISE">Em Análise</option>
+            <option value="CONCLUIDA">Concluída</option>
+            <option value="APROVADA">Aprovada</option>
+            <option value="REJEITADA">Rejeitada</option>
+          </select>
+        </label>
+
+        <button class="btn success" id="btnCriarAmostra">
+          + Criar Amostra
+        </button>
+      </section>
+
+      <!-- TABELA -->
+      <section class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th onclick="ordenarPor('codAmostra')" style="cursor: pointer">
+                Código 📊
+              </th>
+              <th onclick="ordenarPor('tipoColeta')" style="cursor: pointer">
+                Tipo Coleta 📊
+              </th>
+              <th onclick="ordenarPor('status')" style="cursor: pointer">
+                Status 📊
+              </th>
+              <th onclick="ordenarPor('dataColeta')" style="cursor: pointer">
+                Data Coleta 📊
+              </th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody id="tabelaAmostras">
+            <!-- JS preenche -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <!-- MODAL DETALHES (estrutura) -->
+    <div class="modal-overlay" id="modalDetalhes">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Detalhes da Amostra</h2>
+          <button class="close-btn">&times;</button>
+        </div>
+
+        <div class="modal-body" id="detalhesConteudo">
+          <!-- JS preenche. NÃO mostrar ID, apenas codAmostra -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL CRIAR AMOSTRA (estrutura) -->
+    <div class="modal-overlay" id="modalCriar">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Criar Amostra</h2>
+          <button class="close-btn">&times;</button>
+        </div>
+
+        <form class="modal-body">
+          <!-- JS preenche dynamicamente -->
+        </form>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

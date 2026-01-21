@@ -1,0 +1,271 @@
+* {
+  box-sizing: border-box;
+  font-family: "Roboto", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f8;
+  color: #333;
+}
+
+/* HEADER */
+.app-header {
+  background: #2c3e50;
+  padding: 24px;
+  color: #fff;
+}
+
+.header-content h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.header-content p {
+  margin: 4px 0 0;
+  opacity: 0.85;
+}
+
+/* CONTAINER */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 24px auto;
+}
+
+/* FILTROS */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.filters input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  min-width: 150px;
+}
+
+.status-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+select {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+/* BOTÕES */
+.btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.primary {
+  background: #3498db;
+  color: #fff;
+}
+
+.btn.success {
+  background: #2ecc71;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: #2980b9;
+}
+
+.btn.success:hover {
+  background: #27ae60;
+}
+
+/* TABELA */
+.table-container {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #34495e;
+  color: #fff;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+  background: #f9f9f9;
+}
+
+/* STATUS TAGS */
+.status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.status.PENDENTE {
+  background: #f39c12;
+}
+.status.EM_ANALISE {
+  background: #7f8c8d;
+}
+.status.CONCLUIDA {
+  background: #9b59b6;
+}
+.status.APROVADA {
+  background: #27ae60;
+}
+.status.REJEITADA {
+  background: #e74c3c;
+}
+
+/* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  width: 500px;
+  max-width: 90%;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #34495e;
+  color: #fff;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-body {
+  padding: 16px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* BOTÕES ADICIONAIS */
+.btn.secondary {
+  background: #95a5a6;
+  color: #fff;
+}
+
+.btn.secondary:hover {
+  background: #7f8c8d;
+}
+
+.btn.danger {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.btn.danger:hover {
+  background: #c0392b;
+}
+
+/* PAGINAÇÃO */
+.paginacao {
+  text-align: center;
+  padding: 20px;
+}
+
+.paginacao button {
+  margin: 0 4px;
+}
+
+.paginacao button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* FORMULÁRIOS */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.actions button {
+  flex: 1;
+}
+
+/* HISTÓRICO */
+.historico {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.historico li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}

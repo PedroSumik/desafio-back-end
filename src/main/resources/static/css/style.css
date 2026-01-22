@@ -75,12 +75,21 @@ select {
   color: #fff;
 }
 
+.btn.delete {
+  background: #cc382e;
+  color: #fff;
+}
+
 .btn.primary:hover {
   background: #2980b9;
 }
 
 .btn.success:hover {
   background: #27ae60;
+}
+
+.btn.delete:hover {
+  background: #c03c33;
 }
 
 .table-container {

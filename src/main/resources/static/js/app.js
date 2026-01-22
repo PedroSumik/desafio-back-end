@@ -109,6 +109,11 @@ function renderizarTabela(amostras) {
           Ver Detalhes
         </button>
       </td>
+      <td>
+        <button class="btn delete btn-excluir" data-id="${amostra.id}">
+          Excluir
+        </button>
+      </td>
     `;
 
     tabelaBody.appendChild(tr);
@@ -117,6 +122,12 @@ function renderizarTabela(amostras) {
   document.querySelectorAll(".btn-detalhes").forEach((btn) => {
     btn.addEventListener("click", () => {
       abrirDetalhes(btn.dataset.id);
+    });
+  });
+
+  document.querySelectorAll(".btn-excluir").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      excluirAmostra(btn.dataset.id);
     });
   });
 }
@@ -181,6 +192,24 @@ function ordenarPor(coluna) {
   }
   paginaAtual = 0;
   carregarAmostras();
+}
+
+async function excluirAmostra(id) {
+  if (
+    confirm(
+      "Tem certeza que deseja excluir essa amostra? Não será possivel recuperar ela após a ação.",
+    )
+  ) {
+    const response = await fetch(`${API_BASE}/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao deletar amostra.");
+    }
+
+    carregarAmostras();
+  }
 }
 
 async function abrirDetalhes(id) {
